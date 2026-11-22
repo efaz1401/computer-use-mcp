@@ -2,7 +2,7 @@
 
 Self-contained Antigravity plugin and universal MCP package bundling a native Rust Windows Computer Use executable (`bin/QoderComputerUse.exe`, `v2.2.16`) and an agent-agnostic `SKILL.md`.
 
-The server needs no Node.js, Python, `node_repl`, or IDE running. Agent-facing usage instructions live in [AGENTS.md](AGENTS.md).
+The server needs no Node.js, Python, or IDE running. Agent-facing usage instructions live in [AGENTS.md](AGENTS.md).
 
 ## Demo
 
@@ -32,16 +32,16 @@ powershell -ExecutionPolicy Bypass -File tools/set-indicator.ps1 -Text "Computer
 
 ---
 
-## Why Use `QoderComputerUse.exe` Directly?
+## Why Use the Native MCP Server?
 
-Inside the upstream IDE integration, Computer Use is hidden behind a `node_repl` JavaScript wrapper (`@qoder-space/computer-use` / `@ali/qoder-cu-sdk`) that strips out several native features. Connecting directly to `bin/QoderComputerUse.exe` over stdio JSON-RPC 2.0 MCP unlocks:
+Connecting directly to `bin/QoderComputerUse.exe` over stdio JSON-RPC 2.0 MCP exposes the full native tool surface:
 
-- **All 14 Native Rust Tools** — including the hidden **`run_steps`** server-side 64-step batch orchestrator.
+- **All 14 Native Rust Tools** — including the **`run_steps`** server-side 64-step batch orchestrator.
 - **Single-Round-Trip Action + Refresh (`post_action_state: true`)** — every mutating tool can capture and return the updated screenshot and UIA tree in the same MCP call.
 - **Semantic `element_text` Targeting** — `run_steps` can click, set values, or invoke secondary actions by matching control text directly without needing a separate `get_window_state` round-trip.
 - **Server-Side UIA Tree Filtering (`state_tree_filter`, `state_max_tree_lines`)** — trims huge Electron/Chromium accessibility trees in Rust before returning to the model.
 - **3-Tier Occluded Window Capture** — isolated child-process WinRT `Windows.Graphics.Capture` (compositing transient owned popups/menus) → GDI `PrintWindow` fallback → screen `BitBlt` fallback.
-- **Neutral Control Indicator** — a dark status card with an amber screen-edge glow appears while actions run (`QODER_CUA_OPERATION_OVERLAY=1`), and physical `Escape` aborts control. Pointer animation stays off (`QODER_CUA_POINTER_ANIMATION=0`). Customize the label with `tools/set-indicator.ps1`.
+- **Neutral Control Indicator** — a dark status card with an amber screen-edge glow appears while actions run (`QODER_CUA_OPERATION_OVERLAY=1`), and physical `Escape` aborts control. Pointer animation stays off (`QODER_CUA_POINTER_ANIMATION=0`).
 
 ---
 
@@ -65,7 +65,6 @@ computer-use-mcp/
 │   ├── demo.mjs                           # MCP automation used in the demo
 │   └── record-demo.ps1                    # Re-records the demo with ffmpeg
 ├── docs/
-│   ├── reverse-engineering-report.md      # Full REA reverse-engineering dossier (27 Rust modules, 9 CLI flags, 29 env vars)
 │   └── tools-schema.json                  # Complete JSON schemas for all 14 native MCP tools
 └── assets/
     └── logo.svg
@@ -112,6 +111,6 @@ claude mcp add --scope user qoder-computer-use -- "$env:USERPROFILE\.gemini\conf
 
 ---
 
-## Reverse-Engineering Documentation
+## Tool Schemas
 
-See [docs/reverse-engineering-report.md](docs/reverse-engineering-report.md) for the complete REA (`reverse-engineer-anything`) investigation report covering all 27 Rust modules, 9 CLI flags, 29 `QODER_CUA_*` environment variables, and 4 stdio protocols, and [docs/tools-schema.json](docs/tools-schema.json) for the full 14-tool JSON schemas.
+See [docs/tools-schema.json](docs/tools-schema.json) for the complete JSON schemas of all 14 native MCP tools.

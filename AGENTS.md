@@ -12,7 +12,7 @@ Instructions for AI agents using this repository's Computer Use MCP server.
 - Real input: click, drag, scroll, type, key chords
 - Server-side batching with `run_steps` (up to 64 steps)
 
-It needs no Node.js, Python, IDE, or `node_repl`. It shows a neutral, unbranded control indicator while actions run; pointer animation is disabled.
+It needs no Node.js, Python, or IDE. It shows a neutral, unbranded control indicator while actions run; pointer animation is disabled.
 
 Demo: [demo/computer-use-demo.mp4](demo/computer-use-demo.mp4) shows the server driving Packet Tracer: opening PC0, running `ipconfig`, and pinging the gateway (4/4 replies) with the indicator visible during control.
 
