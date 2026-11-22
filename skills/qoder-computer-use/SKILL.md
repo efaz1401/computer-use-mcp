@@ -7,7 +7,7 @@ description: Control Windows desktop apps, windows, UI Automation (UIA) elements
 
 Use the `qoder-computer-use_mcp` MCP server (`QoderComputerUse.exe` v2.2.16) to inspect and operate Windows desktop applications directly from Antigravity.
 
-Connecting directly to `QoderComputerUse.exe` over MCP exposes all **14 native Rust tools**—including single-round-trip `post_action_state` refreshes, isolated WinRT `Windows.Graphics.Capture` screenshots, and the server-side `run_steps` batch engine. The server is configured with **no on-screen overlay and no pointer animation**; use the host's stop/cancel control to interrupt an operation.
+Connecting directly to `QoderComputerUse.exe` over MCP exposes all **14 native Rust tools**—including single-round-trip `post_action_state` refreshes, isolated WinRT `Windows.Graphics.Capture` screenshots, and the server-side `run_steps` batch engine. A neutral, unbranded control indicator is shown while actions run, and physical `Escape` aborts; pointer animation is disabled.
 
 ---
 
@@ -114,4 +114,4 @@ Prefer `run_steps` whenever performing a deterministic sequence (such as resolvi
 1. **Window-Relative Screenshot Coordinates:** `(x, y)` in `click`, `drag`, and `scroll` are **image pixels** in the returned screenshot (`0 <= x < width`, `0 <= y < height`), never raw desktop coordinates. If the host resizes the displayed image, scale `(x, y)` back to the screenshot's declared `width` and `height` (check `coordinateGuidance`).
 2. **Snapshot-Scoped IDs:** `screenshotId` and `accessibilityRevision` (`snapshotRevision`) are invalidated whenever window bounds change or a mutating action occurs. Never reuse stale coordinates or element indices after a layout change.
 3. **Occlusion Handling (`target_occluded`):** If `click` reports `"click point is outside the target window or is covered by another window"`, call `activate_window` on the target window, capture a fresh `get_window_state`, and retry once. If the window cannot be brought to the front, use keyboard navigation (`press_key`, `type_text`) or semantic UIA actions (`element_index`, `set_value`), which still reach occluded windows.
-4. **User Interrupt (`user_interrupted`):** If a call returns `user_interrupted`, the turn ended, or the host cancels the operation, stop issuing Computer Use calls immediately and yield back to the user.
+4. **Control Indicator and Escape Interrupt (`user_interrupted`):** A neutral indicator is visible while actions run. If the user presses physical `Escape` while it is active, `QoderComputerUse.exe` aborts and returns `user_interrupted`. Stop issuing Computer Use calls immediately and yield back to the user.

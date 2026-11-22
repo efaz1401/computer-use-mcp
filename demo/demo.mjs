@@ -8,7 +8,7 @@ const closeOnly = process.argv.includes("--close-only");
 
 const env = {
   ...process.env,
-  QODER_CUA_OPERATION_OVERLAY: "0",
+  QODER_CUA_OPERATION_OVERLAY: "1",
   QODER_CUA_POINTER_ANIMATION: "0",
   QODER_CUA_LOG_LEVEL: "warn",
 };
@@ -145,7 +145,7 @@ async function main() {
 
   log("----------------------------------------");
   log("DEMO COMPLETE - all UI actions via MCP");
-  log("No overlay or pointer animation was drawn.");
+  log("Neutral control indicator shown; Escape aborts.");
 }
 
 main()

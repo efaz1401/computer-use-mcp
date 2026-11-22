@@ -12,9 +12,9 @@ Instructions for AI agents using this repository's Computer Use MCP server.
 - Real input: click, drag, scroll, type, key chords
 - Server-side batching with `run_steps` (up to 64 steps)
 
-It needs no Node.js, Python, IDE, or `node_repl`. It runs invisibly by default in this repo: no screen border, banner, pointer animation, or branded overlay is drawn.
+It needs no Node.js, Python, IDE, or `node_repl`. It shows a neutral, unbranded control indicator while actions run; pointer animation is disabled.
 
-Demo: [demo/computer-use-demo.mp4](demo/computer-use-demo.mp4) shows the server driving Calculator through `run_steps` (7 x 8 = 56).
+Demo: [demo/computer-use-demo.mp4](demo/computer-use-demo.mp4) shows the server driving Calculator through `run_steps` (7 x 8 = 56) with the indicator visible during control.
 
 ## Register The Server
 
@@ -28,7 +28,7 @@ Demo: [demo/computer-use-demo.mp4](demo/computer-use-demo.mp4) shows the server 
       "command": "C:\\Users\\<YOU>\\.gemini\\config\\plugins\\qoder-computer-use\\bin\\QoderComputerUse.exe",
       "args": [],
       "env": {
-        "QODER_CUA_OPERATION_OVERLAY": "0",
+        "QODER_CUA_OPERATION_OVERLAY": "1",
         "QODER_CUA_POINTER_ANIMATION": "0",
         "QODER_CUA_LOG_LEVEL": "warn"
       }
@@ -101,12 +101,13 @@ This is the exact sequence recorded in [demo/computer-use-demo.mp4](demo/compute
 - Do not perform sensitive actions (sending messages, uploading files, purchases, deletions, changing sharing/access) without the user's explicit intent or confirmation.
 - Do not automate terminals, the Windows Run dialog, password managers, authentication dialogs, or Windows security/privacy settings.
 - Do not use the Windows/Meta/Super key or submit age verification.
-- Stop immediately on `user_interrupted`, turn end, or host cancellation, and yield back to the user.
+- Stop immediately on `user_interrupted` (physical `Escape`), turn end, or host cancellation, and yield back to the user.
 
-## Overlay Policy
+## Control Indicator Policy
 
-This repository intentionally runs with no on-screen overlay:
+The agent must always make control visible to the user:
 
-- Keep `QODER_CUA_OPERATION_OVERLAY=0` and `QODER_CUA_POINTER_ANIMATION=0`.
-- The binary's physical `Escape` abort is part of the overlay, so with the overlay disabled use the host agent's stop/cancel control.
-- Do not re-enable the overlay unless the user explicitly asks.
+- Keep `QODER_CUA_OPERATION_OVERLAY=1` so the neutral indicator appears while actions run.
+- Keep `QODER_CUA_POINTER_ANIMATION=0` to avoid extra visual noise.
+- While the indicator is active, physical `Escape` aborts and the call returns `user_interrupted`; stop immediately.
+- The indicator is unbranded. Do not replace it with logos or watermarks; customize its label only with `tools/set-indicator.ps1`.

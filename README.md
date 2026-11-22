@@ -6,7 +6,7 @@ The server needs no Node.js, Python, `node_repl`, or IDE running. Agent-facing u
 
 ## Demo
 
-[Watch the 20-second demo](demo/computer-use-demo.mp4): the MCP server discovers Calculator, reads its UIA tree, and runs `7 x 8 = 56` through `run_steps` — with no overlay or watermark.
+[Watch the 20-second demo](demo/computer-use-demo.mp4): the MCP server discovers Calculator, reads its UIA tree, and runs `7 x 8 = 56` through `run_steps` — with a neutral control indicator visible while it acts.
 
 To re-record it (Windows, Node.js, ffmpeg), run:
 
@@ -15,6 +15,16 @@ powershell -ExecutionPolicy Bypass -File demo/record-demo.ps1
 ```
 
 The automation script is [demo/demo.mjs](demo/demo.mjs); the recorder is [demo/record-demo.ps1](demo/record-demo.ps1).
+
+## Control Indicator
+
+The server shows a neutral, unbranded indicator while it is acting: a dark status card with an amber screen-edge glow and a physical `Escape` abort. It hides when control stops.
+
+Customize the label (1-95 UTF-8 bytes):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tools/set-indicator.ps1 -Text "Computer Use active - Esc to cancel"
+```
 
 ---
 
@@ -27,7 +37,7 @@ Inside the upstream IDE integration, Computer Use is hidden behind a `node_repl`
 - **Semantic `element_text` Targeting** — `run_steps` can click, set values, or invoke secondary actions by matching control text directly without needing a separate `get_window_state` round-trip.
 - **Server-Side UIA Tree Filtering (`state_tree_filter`, `state_max_tree_lines`)** — trims huge Electron/Chromium accessibility trees in Rust before returning to the model.
 - **3-Tier Occluded Window Capture** — isolated child-process WinRT `Windows.Graphics.Capture` (compositing transient owned popups/menus) → GDI `PrintWindow` fallback → screen `BitBlt` fallback.
-- **Invisible Operation Mode** — `QODER_CUA_OPERATION_OVERLAY=0` and `QODER_CUA_POINTER_ANIMATION=0` keep automation free of any on-screen border, banner, or pointer overlay. Note: the binary's physical `Escape` abort is tied to the overlay, so with the overlay disabled rely on the host agent's stop/cancel control.
+- **Neutral Control Indicator** — a dark status card with an amber screen-edge glow appears while actions run (`QODER_CUA_OPERATION_OVERLAY=1`), and physical `Escape` aborts control. Pointer animation stays off (`QODER_CUA_POINTER_ANIMATION=0`). Customize the label with `tools/set-indicator.ps1`.
 
 ---
 
@@ -54,6 +64,8 @@ computer-use-mcp/
 └── assets/
     └── logo.svg
 ```
+
+Tooling for the indicator lives in `tools/set-indicator.ps1`.
 
 ---
 
@@ -83,7 +95,7 @@ claude mcp add --scope user qoder-computer-use -- "$env:USERPROFILE\.gemini\conf
       "command": "C:\\Users\\<YOU>\\.gemini\\config\\plugins\\qoder-computer-use\\bin\\QoderComputerUse.exe",
       "args": [],
       "env": {
-        "QODER_CUA_OPERATION_OVERLAY": "0",
+        "QODER_CUA_OPERATION_OVERLAY": "1",
         "QODER_CUA_POINTER_ANIMATION": "0",
         "QODER_CUA_LOG_LEVEL": "warn"
       }

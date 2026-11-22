@@ -58,8 +58,8 @@ if ($calc -eq [IntPtr]::Zero) { throw 'Calculator window not found' }
 $screen = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds
 $w = 640
 $h = 720
-$x = $screen.Width - $w - 20
-$y = 20
+$x = [int](($screen.Width - $w) / 2)
+$y = 0
 [void][DemoWin]::MoveWindow($calc, $x, $y, $w, $h, $true)
 [void][DemoWin]::SetForegroundWindow($calc)
 Start-Sleep -Milliseconds 600
@@ -109,7 +109,8 @@ $filter = "[0:v]scale=700:700:force_original_aspect_ratio=decrease,pad=720:700:(
   "[bg]drawtext=fontfile=.demo-font.ttf:text='LIVE DEMO':fontcolor=0x6b7280:fontsize=16:x=48:y=48," +
   "drawtext=fontfile=.demo-font-bold.ttf:text='Computer Use MCP':fontcolor=white:fontsize=46:x=48:y=110," +
   "drawtext=fontfile=.demo-font.ttf:text='Native Windows automation':fontcolor=0x9aa4b2:fontsize=22:x=48:y=172," +
-  "drawtext=fontfile=.demo-font.ttf:text='No overlay. No watermark.':fontcolor=0x9aa4b2:fontsize=22:x=48:y=204," +
+  "drawtext=fontfile=.demo-font.ttf:text='Neutral control indicator':fontcolor=0x9aa4b2:fontsize=22:x=48:y=204," +
+  "drawtext=fontfile=.demo-font.ttf:text='Esc to cancel':fontcolor=0x9aa4b2:fontsize=18:x=48:y=236," +
   "drawbox=x=540:y=40:w=1:h=640:color=0x1f2937:t=fill," +
   "drawtext=fontfile=.demo-font-bold.ttf:text='1  list_windows':fontcolor=0xe5e7eb:fontsize=22:x=48:y=280," +
   "drawtext=fontfile=.demo-font-bold.ttf:text='2  get_window_state':fontcolor=0xe5e7eb:fontsize=22:x=48:y=326," +
