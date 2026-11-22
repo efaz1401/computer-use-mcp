@@ -6,7 +6,11 @@ The server needs no Node.js, Python, `node_repl`, or IDE running. Agent-facing u
 
 ## Demo
 
-[Watch the 30-second demo](demo/computer-use-demo.mp4): the MCP server opens the Packet Tracer project, opens PC0, runs `ipconfig`, and pings the gateway (`192.168.10.1`) with 4/4 replies — with a neutral control indicator visible while it acts.
+[![Computer Use MCP driving Packet Tracer](demo/computer-use-demo.gif)](demo/computer-use-demo.mp4)
+
+The animated preview shows the MCP server opening the Packet Tracer project, opening PC0, running `ipconfig`, and pinging the gateway (`192.168.10.1`) with 4/4 replies — with a neutral control indicator visible while it acts.
+
+[Watch the full 30-second video](demo/computer-use-demo.mp4).
 
 To re-record it (Windows, Node.js, ffmpeg, Cisco Packet Tracer 9.0.1), run:
 
@@ -55,6 +59,7 @@ computer-use-mcp/
 │   └── qoder-computer-use/
 │       └── SKILL.md                       # Universal 14-tool MCP skill
 ├── demo/
+│   ├── computer-use-demo.gif              # Animated README preview
 │   ├── computer-use-demo.mp4              # 30-second Packet Tracer demo recording
 │   ├── packet-tracer-demo.pkt             # Demo topology opened by the recording
 │   ├── demo.mjs                           # MCP automation used in the demo
