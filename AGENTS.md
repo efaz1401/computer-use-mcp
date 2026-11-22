@@ -14,7 +14,7 @@ Instructions for AI agents using this repository's Computer Use MCP server.
 
 It needs no Node.js, Python, IDE, or `node_repl`. It shows a neutral, unbranded control indicator while actions run; pointer animation is disabled.
 
-Demo: [demo/computer-use-demo.mp4](demo/computer-use-demo.mp4) shows the server driving Calculator through `run_steps` (7 x 8 = 56) with the indicator visible during control.
+Demo: [demo/computer-use-demo.mp4](demo/computer-use-demo.mp4) shows the server driving Packet Tracer: opening PC0, running `ipconfig`, and pinging the gateway (4/4 replies) with the indicator visible during control.
 
 ## Register The Server
 

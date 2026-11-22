@@ -6,15 +6,15 @@ The server needs no Node.js, Python, `node_repl`, or IDE running. Agent-facing u
 
 ## Demo
 
-[Watch the 20-second demo](demo/computer-use-demo.mp4): the MCP server discovers Calculator, reads its UIA tree, and runs `7 x 8 = 56` through `run_steps` — with a neutral control indicator visible while it acts.
+[Watch the 30-second demo](demo/computer-use-demo.mp4): the MCP server opens the Packet Tracer project, opens PC0, runs `ipconfig`, and pings the gateway (`192.168.10.1`) with 4/4 replies — with a neutral control indicator visible while it acts.
 
-To re-record it (Windows, Node.js, ffmpeg), run:
+To re-record it (Windows, Node.js, ffmpeg, Cisco Packet Tracer 9.0.1), run:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File demo/record-demo.ps1
 ```
 
-The automation script is [demo/demo.mjs](demo/demo.mjs); the recorder is [demo/record-demo.ps1](demo/record-demo.ps1).
+The recorder expects Packet Tracer at `C:\Program Files\Cisco Packet Tracer 9.0.1\bin\PacketTracer.exe`; adjust `$packetTracer` in the script if yours differs. The automation script is [demo/demo.mjs](demo/demo.mjs); the demo topology is [demo/packet-tracer-demo.pkt](demo/packet-tracer-demo.pkt).
 
 ## Control Indicator
 
@@ -55,7 +55,8 @@ computer-use-mcp/
 │   └── qoder-computer-use/
 │       └── SKILL.md                       # Universal 14-tool MCP skill
 ├── demo/
-│   ├── computer-use-demo.mp4              # 20-second demo recording
+│   ├── computer-use-demo.mp4              # 30-second Packet Tracer demo recording
+│   ├── packet-tracer-demo.pkt             # Demo topology opened by the recording
 │   ├── demo.mjs                           # MCP automation used in the demo
 │   └── record-demo.ps1                    # Re-records the demo with ffmpeg
 ├── docs/
