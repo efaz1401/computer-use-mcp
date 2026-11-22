@@ -1,0 +1,18 @@
+{
+  "name": "qoder-computer-use",
+  "displayName": "Computer Use",
+  "version": "2.2.16",
+  "description": "Native Windows Computer Use MCP server (QoderComputerUse.exe) for Antigravity and any MCP agent: Windows.Graphics.Capture occluded screenshots, UIA accessibility trees, invisible operation mode with no screen overlay, and the hidden 14th run_steps batch engine.",
+  "author": {
+    "name": "Jobayer Ahmmed Efaz",
+    "url": "https://github.com/efaz1401"
+  },
+  "homepage": "https://github.com/efaz1401/computer-use-mcp",
+  "repository": "https://github.com/efaz1401/computer-use-mcp",
+  "logo": "assets/logo.svg",
+  "suggestedPrompts": [
+    "List my running Windows apps and open windows using Computer Use",
+    "Capture the state and screenshot of Calculator using Computer Use",
+    "Use run_steps to automate a multi-step task in an open desktop app"
+  ]
+}

@@ -1,0 +1,5 @@
+demo/.frames/
+demo/.demo-font*.ttf
+demo/*.log
+demo/*.png
+demo/demo-scratch.txt

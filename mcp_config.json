@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "mcp": {
+      "command": "C:\\Users\\MSI\\.gemini\\config\\plugins\\qoder-computer-use\\bin\\QoderComputerUse.exe",
+      "args": [],
+      "env": {
+        "QODER_CUA_IDE_PRODUCT": "Antigravity",
+        "QODER_CUA_OPERATION_OVERLAY": "0",
+        "QODER_CUA_POINTER_ANIMATION": "0",
+        "QODER_CUA_LOG_LEVEL": "warn"
+      }
+    }
+  }
+}

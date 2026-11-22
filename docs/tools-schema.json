@@ -1,0 +1,1166 @@
+{
+  "tools": [
+    {
+      "description": "List running or recently used Windows apps. Use include_all:true only when the concise default list is not enough.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "include_all": {
+            "description": "Defaults to false. false returns running apps plus apps used in the last 14 days; true returns the full model-visible app list.",
+            "type": "boolean"
+          },
+          "include_windows": {
+            "type": "boolean"
+          },
+          "limit": {
+            "description": "Optional maximum number of apps. Defaults to 50 unless include_all is true.",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "query": {
+            "type": "string"
+          },
+          "refresh": {
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "name": "list_apps"
+    },
+    {
+      "description": "List currently targetable Windows desktop windows. Use a returned object as the window argument for later actions.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app": {
+            "type": "string"
+          },
+          "include_bounds": {
+            "type": "boolean"
+          },
+          "include_minimized": {
+            "type": "boolean"
+          },
+          "refresh": {
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "name": "list_windows"
+    },
+    {
+      "description": "Refresh a previously returned window object. Pass either {window:{app,id}} or {id,app}.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "description": "Pass either a full window object from list_apps/list_windows/get_window_state, or id plus app.",
+        "properties": {
+          "app": {
+            "type": "string"
+          },
+          "id": {
+            "description": "Opaque window id returned by list_apps, list_windows, or get_window; copy it unchanged.",
+            "minLength": 1,
+            "pattern": "^[0-9]+$",
+            "type": "string"
+          },
+          "include_diagnostics": {
+            "type": "boolean"
+          },
+          "window": {
+            "additionalProperties": true,
+            "properties": {
+              "app": {
+                "description": "App identifier from list_apps/list_windows, for example process:C:\\Windows\\System32\\win32calc.exe.",
+                "type": "string"
+              },
+              "id": {
+                "description": "Opaque window id returned by list_apps, list_windows, or get_window; copy it unchanged.",
+                "minLength": 1,
+                "pattern": "^[0-9]+$",
+                "type": "string"
+              },
+              "snapshotRevision": {
+                "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+                "minLength": 1,
+                "pattern": "^[0-9]+$",
+                "type": "string"
+              },
+              "snapshot_revision": {
+                "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+                "minLength": 1,
+                "pattern": "^[0-9]+$",
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "app",
+              "id"
+            ],
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "name": "get_window"
+    },
+    {
+      "description": "Launch an app by app id or validated executable identifier.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "app": {
+            "type": "string"
+          },
+          "expected_title": {
+            "type": "string"
+          },
+          "timeout_ms": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "wait_for_window": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "app"
+        ],
+        "type": "object"
+      },
+      "name": "launch_app"
+    },
+    {
+      "description": "Bring a target window to the foreground. Pass the full window object with app and id, not a bare id.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "post_action_include_screenshot": {
+            "type": "boolean"
+          },
+          "post_action_include_text": {
+            "type": "boolean"
+          },
+          "post_action_state": {
+            "description": "When true, capture fresh state after a mutation. Otherwise the result requires refetch.",
+            "type": "boolean"
+          },
+          "restore": {
+            "type": "boolean"
+          },
+          "verify_foreground": {
+            "type": "boolean"
+          },
+          "window": {
+            "additionalProperties": true,
+            "properties": {
+              "app": {
+                "description": "App identifier from list_apps/list_windows, for example process:C:\\Windows\\System32\\win32calc.exe.",
+                "type": "string"
+              },
+              "id": {
+                "description": "Opaque window id returned by list_apps, list_windows, or get_window; copy it unchanged.",
+                "minLength": 1,
+                "pattern": "^[0-9]+$",
+                "type": "string"
+              },
+              "snapshotRevision": {
+                "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+                "minLength": 1,
+                "pattern": "^[0-9]+$",
+                "type": "string"
+              },
+              "snapshot_revision": {
+                "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+                "minLength": 1,
+                "pattern": "^[0-9]+$",
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "app",
+              "id"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "window"
+        ],
+        "type": "object"
+      },
+      "name": "activate_window"
+    },
+    {
+      "description": "Capture screenshot and/or accessibility text. Screenshot pixels are window-relative coordinates for click/drag/scroll.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "include_diagnostics": {
+            "type": "boolean"
+          },
+          "include_screenshot": {
+            "type": "boolean"
+          },
+          "include_text": {
+            "type": "boolean"
+          },
+          "max_tree_chars": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "max_tree_depth": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "max_tree_nodes": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "window": {
+            "additionalProperties": true,
+            "properties": {
+              "app": {
+                "description": "App identifier from list_apps/list_windows, for example process:C:\\Windows\\System32\\win32calc.exe.",
+                "type": "string"
+              },
+              "id": {
+                "description": "Opaque window id returned by list_apps, list_windows, or get_window; copy it unchanged.",
+                "minLength": 1,
+                "pattern": "^[0-9]+$",
+                "type": "string"
+              },
+              "snapshotRevision": {
+                "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+                "minLength": 1,
+                "pattern": "^[0-9]+$",
+                "type": "string"
+              },
+              "snapshot_revision": {
+                "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+                "minLength": 1,
+                "pattern": "^[0-9]+$",
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "app",
+              "id"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "window"
+        ],
+        "type": "object"
+      },
+      "name": "get_window_state"
+    },
+    {
+      "description": "Click x/y for a real mouse click at window-relative screenshot coordinates, or element_index for a UIA semantic click. Prefer x/y for visual targets.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "anyOf": [
+          {
+            "properties": {
+              "element_index": {
+                "description": "Non-negative accessibility element index returned by get_window_state.",
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "element_index"
+            ]
+          },
+          {
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "x",
+              "y"
+            ]
+          }
+        ],
+        "properties": {
+          "accessibilityRevision": {
+            "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+            "minLength": 1,
+            "pattern": "^[0-9]+$",
+            "type": "string"
+          },
+          "accessibility_revision": {
+            "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+            "minLength": 1,
+            "pattern": "^[0-9]+$",
+            "type": "string"
+          },
+          "click_count": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "element_index": {
+            "description": "Snapshot-scoped UIA element index; may invoke without moving the pointer.",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "mouse_button": {
+            "enum": [
+              "left",
+              "right",
+              "middle"
+            ],
+            "type": "string"
+          },
+          "post_action_include_screenshot": {
+            "type": "boolean"
+          },
+          "post_action_include_text": {
+            "type": "boolean"
+          },
+          "post_action_state": {
+            "description": "When true, capture fresh state after a mutation. Otherwise the result requires refetch.",
+            "type": "boolean"
+          },
+          "screenshotId": {
+            "description": "Optional exact screenshot binding, including a related screenshot returned for this window. When omitted, the current window's unique latest fresh screenshot is used.",
+            "type": "string"
+          },
+          "screenshot_id": {
+            "description": "Alias of screenshotId.",
+            "type": "string"
+          },
+          "snapshotRevision": {
+            "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+            "minLength": 1,
+            "pattern": "^[0-9]+$",
+            "type": "string"
+          },
+          "snapshot_revision": {
+            "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+            "minLength": 1,
+            "pattern": "^[0-9]+$",
+            "type": "string"
+          },
+          "window": {
+            "additionalProperties": true,
+            "properties": {
+              "app": {
+                "description": "App identifier from list_apps/list_windows, for example process:C:\\Windows\\System32\\win32calc.exe.",
+                "type": "string"
+              },
+              "id": {
+                "description": "Opaque window id returned by list_apps, list_windows, or get_window; copy it unchanged.",
+                "minLength": 1,
+                "pattern": "^[0-9]+$",
+                "type": "string"
+              },
+              "snapshotRevision": {
+                "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+                "minLength": 1,
+                "pattern": "^[0-9]+$",
+                "type": "string"
+              },
+              "snapshot_revision": {
+                "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+                "minLength": 1,
+                "pattern": "^[0-9]+$",
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "app",
+              "id"
+            ],
+            "type": "object"
+          },
+          "x": {
+            "description": "Window-relative screenshot x for real mouse click.",
+            "type": "number"
+          },
+          "y": {
+            "description": "Window-relative screenshot y for real mouse click.",
+            "type": "number"
+          }
+        },
+        "required": [
+          "window"
+        ],
+        "type": "object"
+      },
+      "name": "click"
+    },
+    {
+      "description": "Drag between two window-relative screenshot coordinates.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "duration_ms": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "from_x": {
+            "description": "Window-relative screenshot x.",
+            "type": "number"
+          },
+          "from_y": {
+            "description": "Window-relative screenshot y.",
+            "type": "number"
+          },
+          "post_action_include_screenshot": {
+            "type": "boolean"
+          },
+          "post_action_include_text": {
+            "type": "boolean"
+          },
+          "post_action_state": {
+            "description": "When true, capture fresh state after a mutation. Otherwise the result requires refetch.",
+            "type": "boolean"
+          },
+          "screenshotId": {
+            "description": "Optional exact screenshot binding, including a related screenshot returned for this window; otherwise the current window's unique latest fresh screenshot is used.",
+            "type": "string"
+          },
+          "screenshot_id": {
+            "description": "Alias of screenshotId.",
+            "type": "string"
+          },
+          "to_x": {
+            "description": "Window-relative screenshot x.",
+            "type": "number"
+          },
+          "to_y": {
+            "description": "Window-relative screenshot y.",
+            "type": "number"
+          },
+          "window": {
+            "additionalProperties": true,
+            "properties": {
+              "app": {
+                "description": "App identifier from list_apps/list_windows, for example process:C:\\Windows\\System32\\win32calc.exe.",
+                "type": "string"
+              },
+              "id": {
+                "description": "Opaque window id returned by list_apps, list_windows, or get_window; copy it unchanged.",
+                "minLength": 1,
+                "pattern": "^[0-9]+$",
+                "type": "string"
+              },
+              "snapshotRevision": {
+                "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+                "minLength": 1,
+                "pattern": "^[0-9]+$",
+                "type": "string"
+              },
+              "snapshot_revision": {
+                "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+                "minLength": 1,
+                "pattern": "^[0-9]+$",
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "app",
+              "id"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "window",
+          "from_x",
+          "from_y",
+          "to_x",
+          "to_y"
+        ],
+        "type": "object"
+      },
+      "name": "drag"
+    },
+    {
+      "description": "Scroll at a window-relative screenshot coordinate with scrollX and scrollY deltas.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "post_action_include_screenshot": {
+            "type": "boolean"
+          },
+          "post_action_include_text": {
+            "type": "boolean"
+          },
+          "post_action_state": {
+            "description": "When true, capture fresh state after a mutation. Otherwise the result requires refetch.",
+            "type": "boolean"
+          },
+          "screenshotId": {
+            "description": "Optional exact screenshot binding, including a related screenshot returned for this window; otherwise the current window's unique latest fresh screenshot is used.",
+            "type": "string"
+          },
+          "screenshot_id": {
+            "description": "Alias of screenshotId.",
+            "type": "string"
+          },
+          "scrollX": {
+            "type": "number"
+          },
+          "scrollY": {
+            "type": "number"
+          },
+          "window": {
+            "additionalProperties": true,
+            "properties": {
+              "app": {
+                "description": "App identifier from list_apps/list_windows, for example process:C:\\Windows\\System32\\win32calc.exe.",
+                "type": "string"
+              },
+              "id": {
+                "description": "Opaque window id returned by list_apps, list_windows, or get_window; copy it unchanged.",
+                "minLength": 1,
+                "pattern": "^[0-9]+$",
+                "type": "string"
+              },
+              "snapshotRevision": {
+                "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+                "minLength": 1,
+                "pattern": "^[0-9]+$",
+                "type": "string"
+              },
+              "snapshot_revision": {
+                "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+                "minLength": 1,
+                "pattern": "^[0-9]+$",
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "app",
+              "id"
+            ],
+            "type": "object"
+          },
+          "x": {
+            "description": "Window-relative screenshot x.",
+            "type": "number"
+          },
+          "y": {
+            "description": "Window-relative screenshot y.",
+            "type": "number"
+          }
+        },
+        "required": [
+          "window",
+          "x",
+          "y",
+          "scrollX",
+          "scrollY"
+        ],
+        "type": "object"
+      },
+      "name": "scroll"
+    },
+    {
+      "description": "Send a key or chord using X-style key names, such as Return, Tab, or Control_L+a.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "post_action_include_screenshot": {
+            "type": "boolean"
+          },
+          "post_action_include_text": {
+            "type": "boolean"
+          },
+          "post_action_state": {
+            "description": "When true, capture fresh state after a mutation. Otherwise the result requires refetch.",
+            "type": "boolean"
+          },
+          "window": {
+            "additionalProperties": true,
+            "properties": {
+              "app": {
+                "description": "App identifier from list_apps/list_windows, for example process:C:\\Windows\\System32\\win32calc.exe.",
+                "type": "string"
+              },
+              "id": {
+                "description": "Opaque window id returned by list_apps, list_windows, or get_window; copy it unchanged.",
+                "minLength": 1,
+                "pattern": "^[0-9]+$",
+                "type": "string"
+              },
+              "snapshotRevision": {
+                "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+                "minLength": 1,
+                "pattern": "^[0-9]+$",
+                "type": "string"
+              },
+              "snapshot_revision": {
+                "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+                "minLength": 1,
+                "pattern": "^[0-9]+$",
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "app",
+              "id"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "window",
+          "key"
+        ],
+        "type": "object"
+      },
+      "name": "press_key"
+    },
+    {
+      "description": "Type literal text into the focused target window. Use press_key for chords and control keys.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "post_action_include_screenshot": {
+            "type": "boolean"
+          },
+          "post_action_include_text": {
+            "type": "boolean"
+          },
+          "post_action_state": {
+            "description": "When true, capture fresh state after a mutation. Otherwise the result requires refetch.",
+            "type": "boolean"
+          },
+          "text": {
+            "type": "string"
+          },
+          "verify_text": {
+            "type": [
+              "boolean",
+              "string"
+            ]
+          },
+          "window": {
+            "additionalProperties": true,
+            "properties": {
+              "app": {
+                "description": "App identifier from list_apps/list_windows, for example process:C:\\Windows\\System32\\win32calc.exe.",
+                "type": "string"
+              },
+              "id": {
+                "description": "Opaque window id returned by list_apps, list_windows, or get_window; copy it unchanged.",
+                "minLength": 1,
+                "pattern": "^[0-9]+$",
+                "type": "string"
+              },
+              "snapshotRevision": {
+                "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+                "minLength": 1,
+                "pattern": "^[0-9]+$",
+                "type": "string"
+              },
+              "snapshot_revision": {
+                "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+                "minLength": 1,
+                "pattern": "^[0-9]+$",
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "app",
+              "id"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "window",
+          "text"
+        ],
+        "type": "object"
+      },
+      "name": "type_text"
+    },
+    {
+      "description": "Set the value of an editable accessibility element from a recent get_window_state result.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "accessibilityRevision": {
+            "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+            "minLength": 1,
+            "pattern": "^[0-9]+$",
+            "type": "string"
+          },
+          "accessibility_revision": {
+            "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+            "minLength": 1,
+            "pattern": "^[0-9]+$",
+            "type": "string"
+          },
+          "element_index": {
+            "description": "Non-negative accessibility element index returned by get_window_state.",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "post_action_include_screenshot": {
+            "type": "boolean"
+          },
+          "post_action_include_text": {
+            "type": "boolean"
+          },
+          "post_action_state": {
+            "description": "When true, capture fresh state after a mutation. Otherwise the result requires refetch.",
+            "type": "boolean"
+          },
+          "snapshotRevision": {
+            "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+            "minLength": 1,
+            "pattern": "^[0-9]+$",
+            "type": "string"
+          },
+          "snapshot_revision": {
+            "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+            "minLength": 1,
+            "pattern": "^[0-9]+$",
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "window": {
+            "additionalProperties": true,
+            "properties": {
+              "app": {
+                "description": "App identifier from list_apps/list_windows, for example process:C:\\Windows\\System32\\win32calc.exe.",
+                "type": "string"
+              },
+              "id": {
+                "description": "Opaque window id returned by list_apps, list_windows, or get_window; copy it unchanged.",
+                "minLength": 1,
+                "pattern": "^[0-9]+$",
+                "type": "string"
+              },
+              "snapshotRevision": {
+                "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+                "minLength": 1,
+                "pattern": "^[0-9]+$",
+                "type": "string"
+              },
+              "snapshot_revision": {
+                "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+                "minLength": 1,
+                "pattern": "^[0-9]+$",
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "app",
+              "id"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "window",
+          "element_index",
+          "value"
+        ],
+        "type": "object"
+      },
+      "name": "set_value"
+    },
+    {
+      "description": "Invoke a secondary UIA action such as Raise, Scroll Up, Scroll Down, Expand, or Collapse.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "accessibilityRevision": {
+            "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+            "minLength": 1,
+            "pattern": "^[0-9]+$",
+            "type": "string"
+          },
+          "accessibility_revision": {
+            "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+            "minLength": 1,
+            "pattern": "^[0-9]+$",
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "element_index": {
+            "description": "Non-negative accessibility element index returned by get_window_state.",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "post_action_include_screenshot": {
+            "type": "boolean"
+          },
+          "post_action_include_text": {
+            "type": "boolean"
+          },
+          "post_action_state": {
+            "description": "When true, capture fresh state after a mutation. Otherwise the result requires refetch.",
+            "type": "boolean"
+          },
+          "snapshotRevision": {
+            "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+            "minLength": 1,
+            "pattern": "^[0-9]+$",
+            "type": "string"
+          },
+          "snapshot_revision": {
+            "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+            "minLength": 1,
+            "pattern": "^[0-9]+$",
+            "type": "string"
+          },
+          "window": {
+            "additionalProperties": true,
+            "properties": {
+              "app": {
+                "description": "App identifier from list_apps/list_windows, for example process:C:\\Windows\\System32\\win32calc.exe.",
+                "type": "string"
+              },
+              "id": {
+                "description": "Opaque window id returned by list_apps, list_windows, or get_window; copy it unchanged.",
+                "minLength": 1,
+                "pattern": "^[0-9]+$",
+                "type": "string"
+              },
+              "snapshotRevision": {
+                "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+                "minLength": 1,
+                "pattern": "^[0-9]+$",
+                "type": "string"
+              },
+              "snapshot_revision": {
+                "description": "Opaque snapshot revision returned by get_window_state; copy it unchanged.",
+                "minLength": 1,
+                "pattern": "^[0-9]+$",
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "app",
+              "id"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "window",
+          "element_index",
+          "action"
+        ],
+        "type": "object"
+      },
+      "name": "perform_secondary_action"
+    },
+    {
+      "description": "Run a bounded sequence of desktop actions while carrying current window, screenshotId, and accessibilityRevision. Use target.app_filter/window_title_filter to resolve a window, post_step_sleep_ms for short waits, final_state:true to verify once, and element_text or element_index for semantic UIA actions.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "auto_text_state_for_element_text": {
+            "description": "Defaults to true. When a step uses element_text but no current accessibility text state is available, capture get_window_state(include_text:true, include_screenshot:false) from the hydrated window before resolving the unique, tool-compatible element_index.",
+            "type": "boolean"
+          },
+          "default_window": {
+            "description": "Alias for window; useful when the caller wants to distinguish the batch default from a step-specific window.",
+            "type": "object"
+          },
+          "final_state": {
+            "description": "When true, capture get_window_state once after the batch using the latest hydrated window. This is the preferred verification step for batched actions and is where final_state_expect_text should be evaluated.",
+            "type": "boolean"
+          },
+          "final_state_expect_case_sensitive": {
+            "description": "Defaults to false. Set true when final_state_expect_text matching should be case-sensitive.",
+            "type": "boolean"
+          },
+          "final_state_expect_mode": {
+            "description": "Defaults to all. Use any when any one of several expected final-state text candidates is sufficient.",
+            "enum": [
+              "all",
+              "any"
+            ],
+            "type": "string"
+          },
+          "final_state_expect_text": {
+            "description": "Optional substring or substrings expected in the raw final text state. Requires final_state:true and final_state_include_text:true. Missing text marks the batch failed while still returning the fresh state.",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          },
+          "final_state_include_screenshot": {
+            "description": "Defaults to false. Set true when the final state should include screenshots.",
+            "type": "boolean"
+          },
+          "final_state_include_text": {
+            "description": "Defaults to true. Set false only when final_state_include_screenshot is true.",
+            "type": "boolean"
+          },
+          "final_state_max_tree_depth": {
+            "description": "Optional UIA tree depth budget forwarded to final get_window_state.",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "final_state_max_tree_nodes": {
+            "description": "Optional UIA tree node budget forwarded to final get_window_state.",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "final_state_poll_attempts": {
+            "description": "Defaults to 1. When final_state_expect_text is set, capture final_state up to this many times until the expected text is observed after async UI repaint.",
+            "maximum": 20,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "final_state_poll_sleep_ms": {
+            "description": "Defaults to 1000. Delay between final_state polling attempts after the first capture.",
+            "maximum": 30000,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "final_state_sleep_ms": {
+            "description": "Optional delay immediately before final_state capture, useful for waiting for UI repaint/settle before verifying once.",
+            "maximum": 30000,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "lightweight_retry_sleep_ms": {
+            "description": "Defaults to 2000. Delay before retrying a timed-out lightweight discovery or rehydration call inside run_steps.",
+            "maximum": 30000,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "post_step_sleep_ms": {
+            "description": "Defaults to 100. Default delay after each successful step unless the step has post_action_sleep_ms.",
+            "maximum": 30000,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "recover_state_capture": {
+            "description": "Defaults to true. When a get_window_state step or final_state capture fails with target_minimized, capture_failed, or timeout and refetch:true, run_steps activates the current window, refreshes it with get_window, and retries that state capture once.",
+            "type": "boolean"
+          },
+          "rehydrate_on_target_stale": {
+            "description": "Defaults to true. When a window-targeting step fails with target_stale/refetch, run_steps refreshes the current window with get_window and retries that same step once. Element and screenshot stale errors are not retried automatically.",
+            "type": "boolean"
+          },
+          "retry_lightweight_timeouts": {
+            "description": "Defaults to true. When list_apps, list_windows, or get_window times out inside run_steps, wait lightweight_retry_sleep_ms and retry that same lightweight call once. Input actions are never retried by this option.",
+            "type": "boolean"
+          },
+          "return_step_results": {
+            "description": "Defaults to true. When false, return only the batch summary and final hydrated state.",
+            "type": "boolean"
+          },
+          "state": {
+            "description": "Optional prior get_window_state result. run_steps can hydrate window, screenshotId, and accessibilityRevision from it.",
+            "type": "object"
+          },
+          "state_max_tree_lines": {
+            "description": "Optional maximum number of accessibility tree lines returned in the final state. With state_tree_filter, this caps candidate lines; without it, this returns a bounded front excerpt.",
+            "maximum": 1000,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "state_tree_context_lines": {
+            "description": "Optional number of neighboring tree lines to keep around each state_tree_filter match.",
+            "maximum": 20,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "state_tree_filter": {
+            "description": "Optional case-insensitive substring filter, or array of alternative filters, applied to state-like accessibility.tree values returned by run_steps, including step results and final state. Multiple filters match when any candidate appears, keeping large trees concise for the model.",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            ]
+          },
+          "state_tree_front_matter_lines": {
+            "description": "Defaults to 1 when state_tree_filter is provided. Keeps leading accessibility.tree lines before filtered candidates for orientation. Set 0 to return only candidates and context.",
+            "maximum": 20,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "state_tree_include_critical_context": {
+            "description": "Defaults to true. When run_steps compacts an accessibility tree, include focused_element, selected_text, selected_elements, and document_text in accessibility.treeFilter.criticalContext when present.",
+            "type": "boolean"
+          },
+          "state_tree_no_match_fallback": {
+            "description": "Defaults to true. When state_tree_filter finds no candidates, return a bounded front excerpt instead of an empty tree.",
+            "type": "boolean"
+          },
+          "steps": {
+            "description": "Ordered tool calls. First provide or resolve a window/state, then do stable actions such as activate_window, click, type_text, press_key, or set_value. Use short post-action waits only when UI repaint is expected. Prefer final_state:true to verify once at the end instead of refetching between every step.",
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "args": {
+                  "description": "Alias for arguments.",
+                  "type": "object"
+                },
+                "arguments": {
+                  "description": "Arguments for this step's tool. If omitted, an empty object is used. run_steps can fill missing window, screenshotId, and accessibilityRevision from the current state, prior get_window/launch_app output, or a fresh state returned by an earlier step. For click, set_value, and perform_secondary_action, element_text can be used instead of element_index after a current get_window_state(include_text:true); it must match exactly one accessibility node or tree line.",
+                  "type": "object"
+                },
+                "post_action_sleep_ms": {
+                  "description": "Optional delay after this step for UI settling. Keep this short and prefer final_state for verification.",
+                  "maximum": 30000,
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "repeat": {
+                  "description": "Defaults to 1. Repeat this same tool call a bounded number of times for stable actions. element_index/element_text cannot repeat. Coordinate repeat additionally requires post_action_state:true and post_action_include_screenshot:true so each repetition receives a fresh screenshotId.",
+                  "maximum": 32,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "tool": {
+                  "description": "Tool name for this step, for example get_window, get_window_state, activate_window, click, type_text, press_key, drag, scroll, set_value, or perform_secondary_action.",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "tool"
+              ]
+            },
+            "maxItems": 64,
+            "minItems": 1,
+            "type": "array"
+          },
+          "stop_on_error": {
+            "description": "Defaults to true. When true, stop at the first failed step and return failedStep plus any prior step results. When false, a failed mutating step still invalidates the latest hydrated state before later steps continue.",
+            "type": "boolean"
+          },
+          "target": {
+            "additionalProperties": false,
+            "description": "Optional target resolver used before steps when no window/state is provided. It uses list_apps/list_windows, chooses exactly one returned window, refreshes it with get_window, and optionally activates it before the first state capture or action.",
+            "properties": {
+              "activate": {
+                "anyOf": [
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "enum": [
+                      "auto"
+                    ],
+                    "type": "string"
+                  }
+                ],
+                "description": "Defaults to auto. auto activates the resolved or already provided window before the first state capture or action only when the batch contains input or another change. true always activates; false never activates."
+              },
+              "app_filter": {
+                "description": "Case-insensitive substring matched against list_apps id/displayName, or window.app when source is list_windows.",
+                "type": "string"
+              },
+              "launch_app": {
+                "description": "Optional explicit app id or .exe path to launch when launch_if_missing is true and the target window is not currently returned. Use this for local builds or apps not yet discoverable in list_apps, then poll source for a matching window.",
+                "type": "string"
+              },
+              "launch_if_missing": {
+                "description": "Defaults to false. When true and source is list_apps, if app_filter uniquely identifies an installed app but no matching window is returned, call launch_app with that app id and poll list_apps for a target window before running steps.",
+                "type": "boolean"
+              },
+              "launch_poll_attempts": {
+                "description": "Defaults to 10. Number of list_apps polling attempts after launch_if_missing starts an app.",
+                "maximum": 60,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "launch_poll_sleep_ms": {
+                "description": "Defaults to 1000. Delay between list_apps polls after launch_if_missing starts an app.",
+                "maximum": 30000,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "source": {
+                "description": "Defaults to list_apps. Use list_windows only when the task is explicitly about open windows.",
+                "enum": [
+                  "list_apps",
+                  "list_windows"
+                ],
+                "type": "string"
+              },
+              "window_title_filter": {
+                "description": "Case-insensitive substring matched against returned window titles.",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "window": {
+            "description": "Optional default window object containing app and id. Later steps that require a window can omit arguments.window when this is provided or when a prior state contains window.",
+            "type": "object"
+          }
+        },
+        "required": [
+          "steps"
+        ],
+        "type": "object"
+      },
+      "name": "run_steps"
+    }
+  ]
+}
