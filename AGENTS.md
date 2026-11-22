@@ -93,7 +93,7 @@ Full schemas: [docs/tools-schema.json](docs/tools-schema.json). Detailed workflo
 }
 ```
 
-This is the exact sequence recorded in [demo/computer-use-demo.mp4](demo/computer-use-demo.mp4).
+This single-call `run_steps` batch clicks `7 × 8 =` in Windows Calculator and polls up to 8 times until `56` appears in the final UIA state. For the full Cisco Packet Tracer workflow recorded in [demo/computer-use-demo.mp4](demo/computer-use-demo.mp4) (opening PC0, running `ipconfig`, and pinging `192.168.10.1`), see [demo/demo.mjs](demo/demo.mjs).
 
 ## Safety Guardrails
 

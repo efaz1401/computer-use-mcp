@@ -19,6 +19,7 @@ $McpConfig = @{
             command = $ExePath
             args    = @()
             env     = @{
+                QODER_CUA_IDE_PRODUCT       = "Antigravity"
                 QODER_CUA_OPERATION_OVERLAY = "1"
                 QODER_CUA_POINTER_ANIMATION = "0"
                 QODER_CUA_LOG_LEVEL         = "warn"
