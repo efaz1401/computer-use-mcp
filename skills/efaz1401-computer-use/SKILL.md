@@ -1,11 +1,11 @@
 ---
-name: qoder-computer-use
-description: Control Windows desktop apps, windows, UI Automation (UIA) elements, cursor, and keyboard directly via the native Windows Computer Use MCP server (qoder-computer-use_mcp / QoderComputerUse.exe). Use when automating Windows desktop applications, capturing Windows.Graphics.Capture occluded screenshots, or running multi-step UI automation batches with run_steps.
+name: efaz1401-computer-use
+description: Control Windows desktop apps, windows, UI Automation (UIA) elements, cursor, and keyboard directly via the native Windows Computer Use MCP server (efaz1401-computer-use_mcp / QoderComputerUse.exe). Use when automating Windows desktop applications, capturing Windows.Graphics.Capture occluded screenshots, or running multi-step UI automation batches with run_steps.
 ---
 
-# Computer Use (Direct Native MCP in Antigravity)
+# efaz1401-computer-use (Direct Native MCP in Antigravity)
 
-Use the `qoder-computer-use_mcp` MCP server (`QoderComputerUse.exe` v2.2.16) to inspect and operate Windows desktop applications directly from Antigravity.
+Use the `efaz1401-computer-use_mcp` MCP server (`QoderComputerUse.exe` v2.2.16) to inspect and operate Windows desktop applications directly from Antigravity.
 
 Connecting directly to `QoderComputerUse.exe` over MCP exposes all **14 native Rust tools**—including single-round-trip `post_action_state` refreshes, isolated WinRT `Windows.Graphics.Capture` screenshots, and the server-side `run_steps` batch engine. A neutral, unbranded control indicator is shown while actions run, and physical `Escape` aborts; pointer animation is disabled.
 
@@ -88,7 +88,7 @@ Prefer `run_steps` whenever performing a deterministic sequence (such as resolvi
 
 ---
 
-## All 14 Native MCP Tools (`qoder-computer-use_mcp`)
+## All 14 Native MCP Tools (`efaz1401-computer-use_mcp`)
 
 | Tool | Required Arguments | Key Optional Arguments | Description |
 | :--- | :--- | :--- | :--- |

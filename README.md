@@ -8,7 +8,7 @@
 
 **Native Windows Computer Use MCP server** for **Claude Code, Claude Desktop, Cursor, Windsurf, VS Code, and Antigravity**. Give AI agents fast, deterministic control over any Windows desktop application—including legacy GUI software without APIs—using WinRT `Windows.Graphics.Capture` occluded screenshots, indexed Windows UI Automation (UIA) trees, server-side 64-step batching (`run_steps`), and a visible control indicator with instant physical `Escape` abort.
 
-> **Zero runtime dependencies:** Connects directly over `stdio` JSON-RPC 2.0 with no Python, `uv`, Node.js, OCR runtime, or IDE required. Agent-facing workflow rules live in [`AGENTS.md`](AGENTS.md) and [`skills/qoder-computer-use/SKILL.md`](skills/qoder-computer-use/SKILL.md).
+> **Zero runtime dependencies:** Connects directly over `stdio` JSON-RPC 2.0 with no Python, `uv`, Node.js, OCR runtime, or IDE required. Agent-facing workflow rules live in [`AGENTS.md`](AGENTS.md) and [`skills/efaz1401-computer-use/SKILL.md`](skills/efaz1401-computer-use/SKILL.md).
 
 ---
 
@@ -71,11 +71,11 @@ Most Windows desktop automation MCP servers wrap Python (`PyAutoGUI` / `pywinaut
 
 ### 1. Antigravity (Global Plugin)
 
-Clone into `%USERPROFILE%\.gemini\config\plugins\qoder-computer-use` and run [`install.ps1`](install.ps1) to bind your local binary path in `mcp_config.json`:
+Clone into `%USERPROFILE%\.gemini\config\plugins\efaz1401-computer-use` and run [`install.ps1`](install.ps1) to bind your local binary path in `mcp_config.json`:
 
 ```powershell
-git clone https://github.com/efaz1401/computer-use-mcp.git "$env:USERPROFILE\.gemini\config\plugins\qoder-computer-use"
-powershell -ExecutionPolicy Bypass -File "$env:USERPROFILE\.gemini\config\plugins\qoder-computer-use\install.ps1"
+git clone https://github.com/efaz1401/computer-use-mcp.git "$env:USERPROFILE\.gemini\config\plugins\efaz1401-computer-use"
+powershell -ExecutionPolicy Bypass -File "$env:USERPROFILE\.gemini\config\plugins\efaz1401-computer-use\install.ps1"
 ```
 
 ### 2. Claude Code CLI
@@ -132,7 +132,7 @@ Add the same configuration block to:
 
 ## All 14 Native MCP Tools
 
-Complete JSON input/output schemas are documented in [`docs/tools-schema.json`](docs/tools-schema.json). Detailed agent rules live in [`skills/qoder-computer-use/SKILL.md`](skills/qoder-computer-use/SKILL.md).
+Complete JSON input/output schemas are documented in [`docs/tools-schema.json`](docs/tools-schema.json). Detailed agent rules live in [`skills/efaz1401-computer-use/SKILL.md`](skills/efaz1401-computer-use/SKILL.md).
 
 | Tool | Purpose | Key Capabilities |
 | :--- | :--- | :--- |
@@ -205,7 +205,7 @@ computer-use-mcp/
 ├── bin/
 │   └── QoderComputerUse.exe               # Native Windows x86_64 stdio MCP server (v2.2.16)
 ├── skills/
-│   └── qoder-computer-use/
+│   └── efaz1401-computer-use/
 │       └── SKILL.md                       # Universal 14-tool agent skill
 ├── docs/
 │   └── tools-schema.json                  # Complete JSON schemas for all 14 native MCP tools

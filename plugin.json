@@ -1,6 +1,6 @@
 {
-  "name": "qoder-computer-use",
-  "displayName": "Computer Use",
+  "name": "efaz1401-computer-use",
+  "displayName": "efaz1401-computer use",
   "version": "2.2.16",
   "description": "Native Windows Computer Use MCP server (QoderComputerUse.exe) for Antigravity and any MCP agent: Windows.Graphics.Capture occluded screenshots, UIA accessibility trees, a neutral control indicator with Escape abort, and the run_steps batch engine.",
   "author": {

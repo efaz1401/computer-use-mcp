@@ -1,6 +1,6 @@
 $ErrorActionPreference = "Stop"
 
-$PluginDir = Join-Path $env:USERPROFILE ".gemini\config\plugins\qoder-computer-use"
+$PluginDir = Join-Path $env:USERPROFILE ".gemini\config\plugins\efaz1401-computer-use"
 $SourceDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 
 if ($SourceDir -ne $PluginDir) {
@@ -31,5 +31,5 @@ $McpConfig = @{
 $McpConfigPath = Join-Path $PluginDir "mcp_config.json"
 $McpConfig | ConvertTo-Json -Depth 5 | Set-Content -Path $McpConfigPath -Encoding UTF8
 
-Write-Host "Installed Qoder Computer Use plugin to: $PluginDir" -ForegroundColor Green
+Write-Host "Installed efaz1401-computer-use plugin to: $PluginDir" -ForegroundColor Green
 Write-Host "Bound MCP server binary: $ExePath" -ForegroundColor Cyan

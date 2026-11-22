@@ -24,8 +24,8 @@ Demo: [demo/computer-use-demo.mp4](demo/computer-use-demo.mp4) shows the server 
 ```json
 {
   "mcpServers": {
-    "qoder-computer-use": {
-      "command": "C:\\Users\\<YOU>\\.gemini\\config\\plugins\\qoder-computer-use\\bin\\QoderComputerUse.exe",
+    "efaz1401-computer-use": {
+      "command": "C:\\Users\\<YOU>\\.gemini\\config\\plugins\\efaz1401-computer-use\\bin\\QoderComputerUse.exe",
       "args": [],
       "env": {
         "QODER_CUA_OPERATION_OVERLAY": "1",
@@ -72,7 +72,7 @@ Requirements: Windows 10+, an interactive desktop session (not a Windows service
 | `perform_secondary_action` | Invoke a UIA secondary action |
 | `run_steps` | Bounded server-side batch (1..64 steps) with verification |
 
-Full schemas: [docs/tools-schema.json](docs/tools-schema.json). Detailed workflow and argument examples: [skills/qoder-computer-use/SKILL.md](skills/qoder-computer-use/SKILL.md).
+Full schemas: [docs/tools-schema.json](docs/tools-schema.json). Detailed workflow and argument examples: [skills/efaz1401-computer-use/SKILL.md](skills/efaz1401-computer-use/SKILL.md).
 
 ## Example: One-Call Sequence
 
